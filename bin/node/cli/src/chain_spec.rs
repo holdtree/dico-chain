@@ -21,6 +21,7 @@
 use sc_chain_spec::ChainSpecExtension;
 use sp_core::{Pair, Public, crypto::UncheckedInto, sr25519};
 use serde::{Serialize, Deserialize};
+use serde_json::map::Map;
 use node_runtime::{
 	AuthorityDiscoveryConfig, BabeConfig, BalancesConfig, ContractsConfig, CouncilConfig,
 	DemocracyConfig,GrandpaConfig, ImOnlineConfig, SessionConfig, SessionKeys, StakerStatus,
@@ -157,6 +158,11 @@ fn staging_testnet_config_genesis() -> GenesisConfig {
 /// Staging testnet config.
 pub fn staging_testnet_config() -> ChainSpec {
 	let boot_nodes = vec![];
+
+	let mut properties = Map::new();
+	properties.insert("tokenSymbol".into(),"DCAP".into());
+	properties.insert("tokenDecimals".into(),14.into());
+
 	ChainSpec::from_genesis(
 		"Staging Testnet",
 		"staging_testnet",
@@ -166,7 +172,7 @@ pub fn staging_testnet_config() -> ChainSpec {
 		Some(TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)])
 			.expect("Staging telemetry url is valid; qed")),
 		None,
-		None,
+		Some(properties),
 		Default::default(),
 	)
 }
@@ -337,6 +343,11 @@ fn development_config_genesis() -> GenesisConfig {
 
 /// Development config (single validator Alice)
 pub fn development_config() -> ChainSpec {
+
+	let mut properties = Map::new();
+	properties.insert("tokenSymbol".into(),"DCAP".into());
+	properties.insert("tokenDecimals".into(),14.into());
+
 	ChainSpec::from_genesis(
 		"Development",
 		"dev",
@@ -345,7 +356,7 @@ pub fn development_config() -> ChainSpec {
 		vec![],
 		None,
 		None,
-		None,
+		Some(properties),
 		Default::default(),
 	)
 }
@@ -364,6 +375,10 @@ fn local_testnet_genesis() -> GenesisConfig {
 
 /// Local testnet config (multivalidator Alice + Bob)
 pub fn local_testnet_config() -> ChainSpec {
+	let mut properties = Map::new();
+	properties.insert("tokenSymbol".into(),"DCAP".into());
+	properties.insert("tokenDecimals".into(),14.into());
+
 	ChainSpec::from_genesis(
 		"Local Testnet",
 		"local_testnet",
@@ -372,7 +387,7 @@ pub fn local_testnet_config() -> ChainSpec {
 		vec![],
 		None,
 		None,
-		None,
+		Some(properties),
 		Default::default(),
 	)
 }
